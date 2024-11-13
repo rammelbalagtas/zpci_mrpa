@@ -1,0 +1,27 @@
+@Metadata.layer: #CORE
+
+@UI: { headerInfo: { typeName:       'Customer',
+                     typeNamePlural: 'Customer' } }
+annotate entity ZC_MRPA_OUTPUTL3 with
+{
+
+  @EndUserText.label: 'Customer'
+  @UI.lineItem: [{ position: 10 }]
+  Customer;
+
+  @EndUserText.label: 'Available (Previous Month)'
+  @UI.lineItem: [{ position: 20 }]
+  Previousmonth;
+
+  @EndUserText.label: 'New value'
+  @UI.lineItem: [{ position: 30 }]
+  NewPreviousmonth;
+  @EndUserText.label: 'Available (Current Month)'
+  @UI.lineItem: [{ position: 40 }]
+  Currentmonth;
+
+  @EndUserText.label: 'New value'
+  @UI.lineItem: [{ position: 50 }]
+  NewCurrentmonth;
+
+}

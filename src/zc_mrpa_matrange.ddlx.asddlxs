@@ -1,0 +1,13 @@
+@Metadata.layer: #CORE
+
+@UI: { headerInfo: { typeName:       'Filter by Material',
+                     typeNamePlural: 'Filter by Material' } }
+annotate entity ZC_MRPA_MATRANGE with
+{
+  @EndUserText.label: 'From'
+  @UI.lineItem: [{ position: 10 }]
+  MatnrFrom;
+  @EndUserText.label: 'To'
+  @UI.lineItem: [{ position: 20 }]
+  MatnrTo;
+}

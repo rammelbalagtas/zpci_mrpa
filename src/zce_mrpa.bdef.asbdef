@@ -1,0 +1,27 @@
+unmanaged implementation in class zbp_ce_mrpa unique;
+strict ( 1 );
+
+define behavior for ZCE_MRPA //alias <alias_name>
+//late numbering
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  internal create;
+  update;
+  internal delete;
+  field ( readonly ) material;
+  association _MRPA_BY_MRP { internal create; }
+}
+
+define behavior for ZCE_MRPA_BY_MRP //alias <alias_name>
+//late numbering
+lock dependent by _MRPA
+authorization dependent by _MRPA
+//etag master <field_name>
+{
+  update;
+  internal delete;
+  field ( readonly ) material, mrp, dlv, bo, unr, qa, block, previousmonth, currentmonth;
+  association _MRPA;
+}

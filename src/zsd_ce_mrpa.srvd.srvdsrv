@@ -1,0 +1,5 @@
+@EndUserText.label: 'MRPA'
+define service ZSD_CE_MRPA {
+  expose ZCE_MRPA;
+  expose ZCE_MRPA_BY_MRP;
+}

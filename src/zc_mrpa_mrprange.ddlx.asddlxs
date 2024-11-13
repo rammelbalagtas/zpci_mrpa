@@ -1,0 +1,13 @@
+@Metadata.layer: #CORE
+
+@UI: { headerInfo: { typeName:       'Filter by MRP Area',
+                     typeNamePlural: 'Filter by MRP Area' } }
+annotate entity ZC_MRPA_MRPRANGE with
+{
+  @EndUserText.label: 'From'
+  @UI.lineItem: [{ position: 10 }]
+  MrpFrom;
+  @EndUserText.label: 'To'
+  @UI.lineItem: [{ position: 20 }]
+  MrpTo;
+}

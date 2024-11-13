@@ -1,0 +1,64 @@
+projection;
+strict ( 2 );
+use draft;
+
+define behavior for ZC_MRPAPP //alias <alias_name>
+{
+  use update;
+  use delete;
+
+  use action extractData;
+  use action validateEntries;
+  use action clearInput;
+
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+  use action Prepare;
+
+  use association _Materials { create; with draft; }
+  use association _MRP { create; with draft; }
+  use association _Output { with draft; }
+}
+
+define behavior for ZC_MRPA_MATRANGE //alias <alias_name>
+{
+  use update;
+  use delete;
+
+  use association _App { with draft; }
+}
+
+define behavior for ZC_MRPA_MRPRANGE //alias <alias_name>
+{
+  use update;
+  use delete;
+
+  use association _App { with draft; }
+}
+
+define behavior for ZC_MRPA_OUTPUT //alias <alias_name>
+{
+  use update;
+
+  use association _App { with draft; }
+  use association _OutputL2 { with draft; }
+}
+
+define behavior for ZC_MRPA_OUTPUTL2 //alias <alias_name>
+{
+  use update;
+
+  use association _OutputL1 { with draft; }
+  use association _OutputL3 { with draft; }
+  use association _App { with draft; }
+}
+
+define behavior for ZC_MRPA_OUTPUTL3 //alias <alias_name>
+{
+  use update;
+
+  use association _OutputL2 { with draft; }
+  use association _App { with draft; }
+}

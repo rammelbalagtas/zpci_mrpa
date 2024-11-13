@@ -1,0 +1,101 @@
+managed implementation in class zbp_i_mrpapp unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZI_MRPAPP alias App
+with unmanaged save with full data
+draft table zdmrpapp
+etag master Uname
+lock master
+total etag Uname
+authorization master ( global )
+{
+  internal create;
+  update;
+  delete;
+  field ( readonly ) Uname;
+  association _Materials { create; with draft; }
+  association _MRP { create; with draft; }
+  association _Output { internal create; with draft; }
+
+  draft action Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare;
+
+  action extractData result [1] $self;
+  action validateEntries result [1] $self;
+  action clearInput result [1] $self;
+}
+
+define behavior for ZI_MRPA_MATRANGE alias MaterialRange
+persistent table zmrpa_matrange
+draft table zdmrpa_matrange
+lock dependent by _App
+authorization dependent by _App
+etag master Uname
+{
+  update;
+  delete;
+  field ( readonly ) Uname, Paramid;
+  field ( numbering : managed ) Paramid;
+  association _App { with draft; }
+}
+
+define behavior for ZI_MRPA_MRPRANGE alias MRPRange
+persistent table zmrpa_mrprange
+draft table zdmrpa_mrprange
+lock dependent by _App
+authorization dependent by _App
+etag master Uname
+{
+  update;
+  delete;
+  field ( readonly ) Uname, Paramid;
+  field ( numbering : managed ) Paramid;
+  association _App { with draft; }
+}
+
+define behavior for ZI_MRPA_OUTPUT alias OutputL1
+persistent table zmrpa_output
+draft table zdmrpa_output
+lock dependent by _App
+authorization dependent by _App
+etag master Uname
+{
+  update;
+  internal delete;
+  field ( readonly ) Uname, Material, Dlv, Bo, Unr, QA, Block, PreviousMonth, CurrentMonth;
+  association _App { with draft; }
+  association _OutputL2 { internal create; with draft; }
+}
+
+define behavior for ZI_MRPA_OUTPUTL2 alias OutputL2
+persistent table zmrpa_outputl2
+draft table zdmrpa_outputl2
+lock dependent by _App
+authorization dependent by _App
+etag master Uname
+{
+  update;
+  internal delete;
+  field ( readonly ) Uname, Material, Mrp, Dlv, Bo, Unr, QA, Block, PreviousMonth, CurrentMonth;
+  association _OutputL1 { with draft; }
+  association _OutputL3 { internal create; with draft; }
+  association _App { with draft; }
+}
+
+define behavior for ZI_MRPA_OUTPUTL3 alias OutputL3
+persistent table zmrpa_outputl3
+draft table zdmrpa_outputl3
+lock dependent by _App
+authorization dependent by _App
+etag master Uname
+{
+  update;
+  internal delete;
+  field ( readonly ) Uname, Material, Mrp, Customer, PreviousMonth, CurrentMonth;
+  association _OutputL2 { with draft; }
+  association _App { with draft; }
+}

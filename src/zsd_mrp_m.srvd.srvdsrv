@@ -1,0 +1,9 @@
+@EndUserText.label: 'ZMRPA Application'
+define service ZSD_MRP_M {
+  expose ZC_MRPAPP;
+  expose ZC_MRPA_MATRANGE;
+  expose ZC_MRPA_MRPRANGE;
+  expose ZC_MRPA_OUTPUT;
+  expose ZC_MRPA_OUTPUTL2;
+  expose ZC_MRPA_OUTPUTL3;
+}

@@ -1,0 +1,51 @@
+@Metadata.layer: #CORE
+
+@UI: { headerInfo: { typeName:       'Material',
+                     typeNamePlural: 'Material' } }
+annotate entity ZC_MRPA_OUTPUT with
+{
+
+  @UI.facet:
+  [
+  //      {
+  //        purpose: #STANDARD,
+  //        type: #IDENTIFICATION_REFERENCE,
+  //        label: 'Material',
+  //        id: 'Material',
+  //        position: 10
+  //      },
+      {
+        id         : 'Output',
+        purpose    : #STANDARD,
+        position   : 10,
+        label: 'MRP Area',
+        type       :  #LINEITEM_REFERENCE,
+        targetElement: '_OutputL2'
+       }
+  ]
+
+  @EndUserText.label: 'Material'
+  @UI.lineItem: [{ position: 10 }]
+  Material;
+  @EndUserText.label: 'Open Delivery'
+  @UI.lineItem: [{ position: 20 }]
+  Dlv;
+  @EndUserText.label: 'Back Order'
+  @UI.lineItem: [{ position: 30 }]
+  Bo;
+  @EndUserText.label: 'On Hand (Unrestricted)'
+  @UI.lineItem: [{ position: 40 }]
+  Unr;
+  @EndUserText.label: 'On Hand (QA)'
+  @UI.lineItem: [{ position: 50 }]
+  Qa;
+  @EndUserText.label: 'On Hand (Block)'
+  @UI.lineItem: [{ position: 60 }]
+  Block;
+  @EndUserText.label: 'Available (Previous Month)'
+  @UI.lineItem: [{ position: 70 }]
+  Previousmonth;
+  @EndUserText.label: 'Available (Current Month)'
+  @UI.lineItem: [{ position: 80 }]
+  Currentmonth;
+}
