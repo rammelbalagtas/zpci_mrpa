@@ -21,6 +21,10 @@ define view entity ZI_MRPA_OUTPUTL3
   key mrp                as Mrp,
       @EndUserText.label: 'Customer'
   key customer           as Customer,
+      available          as Available,
+      newavailable       as NewAvailable,
+      incoming           as Incoming,
+      newincoming        as newIncoming,
       @EndUserText.label: 'Available (Previous Month)'
       previousmonth      as Previousmonth,
       @EndUserText.label: 'Available (New Previous Month)'

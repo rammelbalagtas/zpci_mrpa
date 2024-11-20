@@ -25,6 +25,8 @@ define view entity ZI_MRPA_OUTPUT
       qa                 as Qa,
       @EndUserText.label: 'On Hand (Block)'
       block              as Block,
+      available as Available,
+      incoming as Incoming,
       @EndUserText.label: 'Available (Previous Month)'
       previousmonth      as Previousmonth,
       @EndUserText.label: 'Available (Current Month)'

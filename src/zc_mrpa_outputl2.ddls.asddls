@@ -16,6 +16,8 @@ define view entity ZC_MRPA_OUTPUTL2
       NewQa,
       Block,
       NewBlock,
+      Available,
+      Incoming,
       Previousmonth,
       Currentmonth,
       CreatedBy,
@@ -24,7 +26,7 @@ define view entity ZC_MRPA_OUTPUTL2
       LocalLastChangedAt,
       LastChangedAt,
       /* Associations */
-      _App: redirected to ZC_MRPAPP,
-      _OutputL1: redirected to parent ZC_MRPA_OUTPUT,
-      _OutputL3: redirected to composition child ZC_MRPA_OUTPUTL3
+      _App      : redirected to ZC_MRPAPP,
+      _OutputL1 : redirected to parent ZC_MRPA_OUTPUT,
+      _OutputL3 : redirected to composition child ZC_MRPA_OUTPUTL3
 }

@@ -45,5 +45,6 @@ define root custom entity ZCE_MRPA
       previousmonth : abap.int4;
       @UI.lineItem  : [ { position: 80, label: 'Available (Current Month)', importance: #HIGH } ]
       currentmonth  : abap.int4;
+//       @UI.selectionField: [{ element: '_MRPA_BY_MRP.MRP', position : 50 }]
       _MRPA_BY_MRP  : composition [0..*] of ZCE_MRPA_BY_MRP;
 }

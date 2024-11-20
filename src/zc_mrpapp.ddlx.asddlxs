@@ -13,13 +13,13 @@ annotate entity ZC_MRPAPP with
         purpose: #STANDARD,
         type: #COLLECTION,
         position: 10,
-        label: 'Selection Screen',
+        label: 'Parameters',
         id: 'SelectionScreen'
       },
       {
         purpose: #STANDARD,
         type: #IDENTIFICATION_REFERENCE,
-        label: 'Input Parameters',
+//        label: 'Parameters',
         id: 'Parameters',
         position: 10,
         parentId: 'SelectionScreen'
@@ -60,7 +60,9 @@ annotate entity ZC_MRPAPP with
   @EndUserText.label: 'Plant'
   @UI.lineItem: [{hidden: true}]
   @UI.identification: [ { position: 10 },
-                        { type: #FOR_ACTION, label: 'Extract data', dataAction: 'extractData' }]
+                        { type: #FOR_ACTION, label: 'Clear', dataAction: 'clearInput' },
+                        { type: #FOR_ACTION, label: 'Export to Excel', dataAction: 'exportToExcel' },
+                        { type: #FOR_ACTION, label: 'Extract data', dataAction: 'extractData' } ]
   @UI.selectionField: [{exclude: true}]
   Plant;
 
@@ -75,5 +77,11 @@ annotate entity ZC_MRPAPP with
   @UI.lineItem: [{hidden: true}]
   @UI.selectionField: [{exclude: true}]
   Updatedata;
+  
+  @EndUserText.label: 'Download file'
+  @UI.lineItem: [{hidden: true}]
+  @UI.selectionField: [{exclude: true}]
+  @UI.identification: [{ position: 40 }]
+  Attachment;
 
 }

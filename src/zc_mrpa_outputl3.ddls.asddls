@@ -9,6 +9,10 @@ define view entity ZC_MRPA_OUTPUTL3
   key Material,
   key Mrp,
   key Customer,
+      Available,
+      NewAvailable,
+      Incoming,
+      newIncoming,
       Previousmonth,
       NewPreviousmonth,
       Currentmonth,
@@ -19,6 +23,6 @@ define view entity ZC_MRPA_OUTPUTL3
       LocalLastChangedAt,
       LastChangedAt,
       /* Associations */
-      _App: redirected to ZC_MRPAPP,
-      _OutputL2: redirected to parent ZC_MRPA_OUTPUTL2
+      _App      : redirected to ZC_MRPAPP,
+      _OutputL2 : redirected to parent ZC_MRPA_OUTPUTL2
 }

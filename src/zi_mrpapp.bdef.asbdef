@@ -1,5 +1,5 @@
 managed implementation in class zbp_i_mrpapp unique;
-strict ( 2 );
+strict;
 with draft;
 
 define behavior for ZI_MRPAPP alias App
@@ -13,7 +13,7 @@ authorization master ( global )
   internal create;
   update;
   delete;
-  field ( readonly ) Uname;
+  field ( readonly ) Uname, Attachment;
   association _Materials { create; with draft; }
   association _MRP { create; with draft; }
   association _Output { internal create; with draft; }
@@ -25,8 +25,14 @@ authorization master ( global )
   draft determine action Prepare;
 
   action extractData result [1] $self;
+  action exportToExcel result [1] $self;
   action validateEntries result [1] $self;
   action clearInput result [1] $self;
+
+  side effects
+  {
+    action extractData affects entity _Output;
+  }
 }
 
 define behavior for ZI_MRPA_MATRANGE alias MaterialRange
@@ -66,7 +72,7 @@ etag master Uname
 {
   update;
   internal delete;
-  field ( readonly ) Uname, Material, Dlv, Bo, Unr, QA, Block, PreviousMonth, CurrentMonth;
+  field ( readonly ) Uname, Material, Dlv, Bo, Unr, QA, Block, Available, Incoming;
   association _App { with draft; }
   association _OutputL2 { internal create; with draft; }
 }
@@ -80,7 +86,7 @@ etag master Uname
 {
   update;
   internal delete;
-  field ( readonly ) Uname, Material, Mrp, Dlv, Bo, Unr, QA, Block, PreviousMonth, CurrentMonth;
+  field ( readonly ) Uname, Material, Mrp, Dlv, Bo, Unr, QA, Block, Available, Incoming;
   association _OutputL1 { with draft; }
   association _OutputL3 { internal create; with draft; }
   association _App { with draft; }
@@ -95,7 +101,7 @@ etag master Uname
 {
   update;
   internal delete;
-  field ( readonly ) Uname, Material, Mrp, Customer, PreviousMonth, CurrentMonth;
+  field ( readonly ) Uname, Material, Mrp, Customer, Available, Incoming;
   association _OutputL2 { with draft; }
   association _App { with draft; }
 }

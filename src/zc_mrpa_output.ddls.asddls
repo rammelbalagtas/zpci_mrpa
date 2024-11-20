@@ -12,6 +12,8 @@ define view entity ZC_MRPA_OUTPUT
       Unr,
       Qa,
       Block,
+      Available,
+      Incoming,
       Previousmonth,
       Currentmonth,
       CreatedBy,

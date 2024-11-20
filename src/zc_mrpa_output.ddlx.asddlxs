@@ -2,6 +2,10 @@
 
 @UI: { headerInfo: { typeName:       'Material',
                      typeNamePlural: 'Material' } }
+                     
+@UI: { headerInfo: { title:          { type: #STANDARD,
+                                       label: 'Material',
+                                       value: 'Material' } } }
 annotate entity ZC_MRPA_OUTPUT with
 {
 
@@ -42,10 +46,10 @@ annotate entity ZC_MRPA_OUTPUT with
   @EndUserText.label: 'On Hand (Block)'
   @UI.lineItem: [{ position: 60 }]
   Block;
-  @EndUserText.label: 'Available (Previous Month)'
+  @EndUserText.label: 'Available'
   @UI.lineItem: [{ position: 70 }]
-  Previousmonth;
-  @EndUserText.label: 'Available (Current Month)'
+  Available;
+  @EndUserText.label: 'Incoming'
   @UI.lineItem: [{ position: 80 }]
-  Currentmonth;
+  Incoming;
 }

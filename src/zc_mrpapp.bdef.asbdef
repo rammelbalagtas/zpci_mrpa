@@ -1,5 +1,5 @@
 projection;
-strict ( 2 );
+strict;
 use draft;
 
 define behavior for ZC_MRPAPP //alias <alias_name>
@@ -8,6 +8,7 @@ define behavior for ZC_MRPAPP //alias <alias_name>
   use delete;
 
   use action extractData;
+  use action exportToExcel;
   use action validateEntries;
   use action clearInput;
 

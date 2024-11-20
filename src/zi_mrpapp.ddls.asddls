@@ -22,7 +22,10 @@ define root view entity ZI_MRPAPP
       @EndUserText.label: 'Perform Update?'
       _Parameters.updatedata         as Updatedata,
       @EndUserText.label: 'Region'
-      _Parameters.region              as Region,
+      _Parameters.region             as Region,
+      _Parameters.attachment         as Attachment,
+      _Parameters.filename           as Filename,
+      _Parameters.mimetype           as Mimetype,
       _Parameters.localcreatedby     as Localcreatedby,
       _Parameters.localcreatedat     as Localcreatedat,
       _Parameters.locallastchangedby as Locallastchangedby,

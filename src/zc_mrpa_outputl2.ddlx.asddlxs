@@ -1,9 +1,11 @@
 @Metadata.layer: #CORE
 
 @UI: { headerInfo: { typeName:       'MRP Area',
-                     typeNamePlural: 'MRP Area' ,
-                     title: { type: #STANDARD,
-                             value: 'Material' } } }
+                     typeNamePlural: 'MRP Area' } }
+                     
+@UI: { headerInfo: { title:          { type: #STANDARD,
+                                       label: 'MRP Area',
+                                       value: 'MRP' } } }
 annotate entity ZC_MRPA_OUTPUTL2 with
 {
 
@@ -31,25 +33,25 @@ annotate entity ZC_MRPA_OUTPUTL2 with
   @EndUserText.label: 'On Hand (Unrestricted)'
   @UI.lineItem: [{ position: 40 }]
   Unr;
-  @EndUserText.label: 'New value'
+  @EndUserText.label: ' '
   @UI.lineItem: [{ position: 50 }]
   NewUnr;
   @EndUserText.label: 'On Hand (QA)'
   @UI.lineItem: [{ position: 60 }]
   Qa;
-  @EndUserText.label: 'New value'
+  @EndUserText.label: ' '
   @UI.lineItem: [{ position: 70 }]
   NewQa;
   @EndUserText.label: 'On Hand (Block)'
   @UI.lineItem: [{ position: 80 }]
   Block;
-  @EndUserText.label: 'New value'
+  @EndUserText.label: ' '
   @UI.lineItem: [{ position: 90 }]
   NewBlock;
-  @EndUserText.label: 'Available (Previous Month)'
+  @EndUserText.label: 'Available'
   @UI.lineItem: [{ position: 100 }]
-  Previousmonth;
-  @EndUserText.label: 'Available (Current Month)'
+  Available;
+  @EndUserText.label: 'Incoming'
   @UI.lineItem: [{ position: 110 }]
-  Currentmonth;
+  Incoming;
 }

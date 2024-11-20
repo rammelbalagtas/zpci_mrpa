@@ -35,6 +35,8 @@ define view entity ZI_MRPA_OUTPUTL2
       block              as Block,
       @EndUserText.label: 'On Hand (New Block)'
       newblock           as NewBlock,
+      available          as Available,
+      incoming           as Incoming,
       @EndUserText.label: 'Available (Previous Month)'
       previousmonth      as Previousmonth,
       @EndUserText.label: 'Available (Current Month)'
