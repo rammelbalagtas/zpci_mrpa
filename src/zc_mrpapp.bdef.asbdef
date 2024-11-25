@@ -1,13 +1,15 @@
-projection;
+projection implementation in class zbp_c_mrpapp unique;
 strict;
 use draft;
+use side effects;
 
-define behavior for ZC_MRPAPP //alias <alias_name>
+define behavior for ZC_MRPAPP alias App
 {
   use update;
   use delete;
 
   use action extractData;
+  use action refreshScreen;
   use action exportToExcel;
   use action validateEntries;
   use action clearInput;
@@ -18,12 +20,14 @@ define behavior for ZC_MRPAPP //alias <alias_name>
   use action Resume;
   use action Prepare;
 
+  action extractData2 result [1] $self;
+
   use association _Materials { create; with draft; }
   use association _MRP { create; with draft; }
   use association _Output { with draft; }
 }
 
-define behavior for ZC_MRPA_MATRANGE //alias <alias_name>
+define behavior for ZC_MRPA_MATRANGE alias MaterialRange
 {
   use update;
   use delete;
@@ -31,7 +35,7 @@ define behavior for ZC_MRPA_MATRANGE //alias <alias_name>
   use association _App { with draft; }
 }
 
-define behavior for ZC_MRPA_MRPRANGE //alias <alias_name>
+define behavior for ZC_MRPA_MRPRANGE alias MRPRange
 {
   use update;
   use delete;
@@ -39,27 +43,34 @@ define behavior for ZC_MRPA_MRPRANGE //alias <alias_name>
   use association _App { with draft; }
 }
 
-define behavior for ZC_MRPA_OUTPUT //alias <alias_name>
+define behavior for ZC_MRPA_OUTPUT alias OutputL1
 {
   use update;
 
+  use action validateInput;
+
   use association _App { with draft; }
+  use association _Messages { with draft; }
   use association _OutputL2 { with draft; }
 }
 
-define behavior for ZC_MRPA_OUTPUTL2 //alias <alias_name>
+define behavior for ZC_MRPA_MESSAGES alias Messages
+{
+  use association _OutputL1 { with draft; }
+  use association _App { with draft; }
+}
+
+define behavior for ZC_MRPA_OUTPUTL2 alias OutputL2
 {
   use update;
-
   use association _OutputL1 { with draft; }
   use association _OutputL3 { with draft; }
   use association _App { with draft; }
 }
 
-define behavior for ZC_MRPA_OUTPUTL3 //alias <alias_name>
+define behavior for ZC_MRPA_OUTPUTL3 alias OutputL3
 {
   use update;
-
   use association _OutputL2 { with draft; }
   use association _App { with draft; }
 }

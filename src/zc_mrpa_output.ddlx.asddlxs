@@ -3,21 +3,65 @@
 @UI: { headerInfo: { typeName:       'Material',
                      typeNamePlural: 'Material' } }
                      
-@UI: { headerInfo: { title:          { type: #STANDARD,
-                                       label: 'Material',
-                                       value: 'Material' } } }
+@UI: { headerInfo: { title: { type: #STANDARD,
+                             value: 'Material' } } }
+
 annotate entity ZC_MRPA_OUTPUT with
 {
 
   @UI.facet:
   [
-  //      {
-  //        purpose: #STANDARD,
-  //        type: #IDENTIFICATION_REFERENCE,
-  //        label: 'Material',
-  //        id: 'Material',
-  //        position: 10
-  //      },
+
+     //Header
+//     {
+//        purpose: #HEADER,
+//        id: 'OrdersAndDelivery',
+//        type: #COLLECTION,
+//        position: 10
+//      },
+//      
+//     {
+//        purpose: #HEADER,
+//        id: 'OnHand',
+//        type: #COLLECTION,
+//        position: 20
+//      },
+//      
+//     {
+//        purpose: #HEADER,
+//        id: 'POQuantity',
+//        type: #COLLECTION,
+//        position: 30
+//      },
+
+      //Fieldgroup in header section
+      {
+//        parentId   : 'OrdersAndDelivery',
+        type       : #FIELDGROUP_REFERENCE,
+        targetQualifier: 'OrdersAndDelivery',
+        label: 'Orders and Delivery',
+        position: 10,
+        purpose: #HEADER
+      },
+      
+      {
+//        parentId   : 'OnHand',
+        type       : #FIELDGROUP_REFERENCE,
+        targetQualifier: 'OnHand',
+        label: 'On Hand',
+        position: 20,
+        purpose: #HEADER
+      },
+      
+      {
+//        parentId   : 'POQuantity',
+        type       : #FIELDGROUP_REFERENCE,
+        targetQualifier: 'POQuantity',
+        label: 'PO Quantity',
+        position: 30,
+        purpose: #HEADER
+      },
+      
       {
         id         : 'Output',
         purpose    : #STANDARD,
@@ -25,31 +69,75 @@ annotate entity ZC_MRPA_OUTPUT with
         label: 'MRP Area',
         type       :  #LINEITEM_REFERENCE,
         targetElement: '_OutputL2'
+       },
+
+      {
+        id         : 'OpenDeliveries',
+        purpose    : #STANDARD,
+        position   : 20,
+        label: 'Open Deliveries',
+        type       :  #LINEITEM_REFERENCE,
+        targetElement: '_Delivery'
+       },
+       
+      {
+        id         : 'BackOrder',
+        purpose    : #STANDARD,
+        position   : 30,
+        label: 'Back Order',
+        type       :  #LINEITEM_REFERENCE,
+        targetElement: '_BackOrder'
+       },
+       
+      {
+        id         : 'Messages',
+        purpose    : #STANDARD,
+        position   : 40,
+        label: 'Messages',
+        type       :  #LINEITEM_REFERENCE,
+        targetElement: '_Messages'
        }
+
   ]
 
   @EndUserText.label: 'Material'
   @UI.lineItem: [{ position: 10 }]
+  @UI.identification: [ { type: #FOR_ACTION, label: 'Validate', dataAction: 'validateInput' }]
   Material;
   @EndUserText.label: 'Open Delivery'
   @UI.lineItem: [{ position: 20 }]
+  @UI.fieldGroup: [{ position: 10, qualifier: 'OrdersAndDelivery'}]
   Dlv;
   @EndUserText.label: 'Back Order'
   @UI.lineItem: [{ position: 30 }]
+  @UI.fieldGroup: [{ position: 20, qualifier: 'OrdersAndDelivery'}]
   Bo;
   @EndUserText.label: 'On Hand (Unrestricted)'
   @UI.lineItem: [{ position: 40 }]
+  @UI.fieldGroup: [{ label: 'Unrestricted', position: 30, qualifier: 'OnHand'}]
   Unr;
   @EndUserText.label: 'On Hand (QA)'
   @UI.lineItem: [{ position: 50 }]
+  @UI.fieldGroup: [{ label: 'QA', position: 40, qualifier: 'OnHand'}]
   Qa;
   @EndUserText.label: 'On Hand (Block)'
   @UI.lineItem: [{ position: 60 }]
+  @UI.fieldGroup: [{ label: 'Block', position: 50, qualifier: 'OnHand'}]
   Block;
   @EndUserText.label: 'Available'
   @UI.lineItem: [{ position: 70 }]
+  @UI.fieldGroup: [{ position: 60, qualifier: 'POQuantity'}]
   Available;
   @EndUserText.label: 'Incoming'
   @UI.lineItem: [{ position: 80 }]
+  @UI.fieldGroup: [{ position: 70, qualifier: 'POQuantity'}]
   Incoming;
+  
+  
+  @EndUserText.label: 'Custom Field1'
+  @UI.lineItem: [{ position: 90 }] 
+  CustomField1;
+  @EndUserText.label: 'Custom Field2'
+  @UI.lineItem: [{ position: 100 }]
+  CustomField2;
 }

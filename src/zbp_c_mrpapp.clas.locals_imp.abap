@@ -1,0 +1,15 @@
+CLASS lhc_app DEFINITION INHERITING FROM cl_abap_behavior_handler.
+
+  PRIVATE SECTION.
+
+    METHODS extractData2 FOR MODIFY
+      IMPORTING keys FOR ACTION App~extractData2 RESULT result.
+
+ENDCLASS.
+
+CLASS lhc_app IMPLEMENTATION.
+
+  METHOD extractData2.
+  ENDMETHOD.
+
+ENDCLASS.

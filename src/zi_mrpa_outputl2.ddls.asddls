@@ -9,10 +9,14 @@
 }
 define view entity ZI_MRPA_OUTPUTL2
   as select from zmrpa_outputl2
-  association        to parent ZI_MRPA_OUTPUT as _OutputL1 on  $projection.Uname    = _OutputL1.Uname
-                                                           and $projection.Material = _OutputL1.Material
-  association [0..1] to ZI_MRPAPP             as _App      on  $projection.Uname = _App.Uname
+  association        to parent ZI_MRPA_OUTPUT as _OutputL1    on  $projection.Uname    = _OutputL1.Uname
+                                                              and $projection.Material = _OutputL1.Material
+  association [0..1] to ZI_MRPAPP             as _App         on  $projection.Uname = _App.Uname
   composition [0..*] of ZI_MRPA_OUTPUTL3      as _OutputL3
+  association [0..*] to ZCE_POQUANTITY        as _POQuantity1 on  $projection.Material = _POQuantity1.material
+                                                              and $projection.Mrp      = _POQuantity1.mrp
+  association [0..*] to ZCE_POQUANTITY2       as _POQuantity2 on  $projection.Material = _POQuantity2.material
+                                                              and $projection.Mrp      = _POQuantity2.mrp
 {
   key uname              as Uname,
       @EndUserText.label: 'Material'
@@ -48,5 +52,7 @@ define view entity ZI_MRPA_OUTPUTL2
       lastchangedat      as LastChangedAt,
       _OutputL1,
       _OutputL3,
-      _App
+      _App,
+      _POQuantity1,
+      _POQuantity2
 }

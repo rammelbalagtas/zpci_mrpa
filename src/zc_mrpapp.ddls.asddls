@@ -32,5 +32,6 @@ define root view entity ZC_MRPAPP
       /* Associations */
       _Materials : redirected to composition child ZC_MRPA_MATRANGE,
       _MRP       : redirected to composition child ZC_MRPA_MRPRANGE,
-      _Output    : redirected to composition child ZC_MRPA_OUTPUT
+      _Output    : redirected to composition child ZC_MRPA_OUTPUT,
+      _Results
 }

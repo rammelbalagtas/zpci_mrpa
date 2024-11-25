@@ -64,7 +64,39 @@ CLASS zmrpa_datagenerator IMPLEMENTATION.
      DELETE FROM zmrpa_user.
      ls_user-bname = sy-uname.
      APPEND ls_user to lt_user.
+          ls_user-bname = 'RBALAGTA'.
+     APPEND ls_user to lt_user.
      INSERT zmrpa_user FROM TABLE @lt_user.
+
+
+     DELETE FROM ZDMRPAPP WHERE uname = 'RBALAGTA'.
+*     DATA lt_app TYPE STANDARD TABLE OF ZDMRPAPP.
+*     DATA ls_app LIKE LINE OF lt_app.
+*     ls_app-uname = sy-uname.
+*     ls_app-draftentityoperationcode = 'N'.
+*     ls_app-hasactiveentity = 'X'.
+*     APPEND ls_app to lt_app.
+*     INSERT ZDMRPAPP FROM TABLE @lt_app.
+
+* TRY.
+*        "Get instance of lock object
+*        DATA(lock) = cl_abap_lock_object_factory=>get_instance( iv_name = 'ZI_MRPAPP' ).
+*        IF 1 = 1.
+*        ENDIF.
+*        "Enqueue(lock) the record / group of records
+**        lock->enqueue(
+**            it_parameter  = VALUE #( (  name = 'PLANT' value = REF #( 'DE82' ) ) )
+**        ).
+*        "lock error
+*      CATCH cx_abap_lock_failure INTO DATA(ex_lock_failure).
+*        "Depends on implementation if You need to let it dump
+*        IF 1 = 1.
+*        ENDIF.
+*        "foreign lock
+*      CATCH cx_abap_foreign_lock INTO DATA(ex_foreign_lock).
+*        "This user is locking already
+*        DATA(iam_locking_it) = ex_foreign_lock->user_name.
+*    ENDTRY.
 
   ENDMETHOD.
 ENDCLASS.

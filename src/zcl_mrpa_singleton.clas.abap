@@ -28,12 +28,14 @@ ENDCLASS.
 
 CLASS zcl_mrpa_singleton IMPLEMENTATION.
   METHOD get_instance.
-    IF go_instance IS BOUND.
-      ro_instance = go_instance.
-    ELSE.
-      ro_instance = NEW zcl_mrpa_singleton(  ).
-    ENDIF.
-    go_instance = ro_instance.
+*    IF go_instance IS BOUND.
+*      ro_instance = go_instance.
+*    ELSE.
+*      ro_instance = NEW zcl_mrpa_singleton(  ).
+*    ENDIF.
+*    go_instance = ro_instance.
+    go_instance = COND #( WHEN go_instance IS BOUND THEN go_instance ELSE NEW #( ) ).
+    ro_instance = go_instance.
   ENDMETHOD.
 
   METHOD set_data.

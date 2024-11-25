@@ -1,0 +1,11 @@
+@EndUserText.label: 'ZMRPA Application'
+define service ZSD_MRP_M2 {
+  expose ZI_MRPAPP;
+  expose ZI_MRPA_MATRANGE;
+  expose ZI_MRPA_MRPRANGE;
+  expose ZI_MRPA_OUTPUT;
+  expose zi_mrpa_messages;
+  expose ZI_MRPA_OUTPUTL2;
+  expose ZI_MRPA_OUTPUTL3;
+  expose ZCE_MRPA2;
+}

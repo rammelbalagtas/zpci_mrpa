@@ -1,3 +1,88 @@
+CLASS lhc_outputl1 DEFINITION INHERITING FROM cl_abap_behavior_handler.
+
+  PRIVATE SECTION.
+
+    METHODS get_global_authorizations FOR GLOBAL AUTHORIZATION
+      IMPORTING REQUEST requested_authorizations FOR OutputL1 RESULT result.
+
+    METHODS validateInput FOR MODIFY
+      IMPORTING keys FOR ACTION OutputL1~validateInput RESULT result.
+
+ENDCLASS.
+
+CLASS lhc_outputl1 IMPLEMENTATION.
+
+  METHOD get_global_authorizations.
+  ENDMETHOD.
+
+  METHOD validateInput.
+    READ ENTITIES OF zi_mrpapp IN LOCAL MODE
+       ENTITY OutputL1
+       ALL FIELDS WITH CORRESPONDING #( keys )
+       RESULT DATA(lt_outputl1).
+  ENDMETHOD.
+
+ENDCLASS.
+
+CLASS lhc_outputl2 DEFINITION INHERITING FROM cl_abap_behavior_handler.
+
+  PRIVATE SECTION.
+
+    METHODS onModifyOnHand FOR DETERMINE ON MODIFY
+      IMPORTING keys FOR OutputL2~onModifyOnHand.
+
+ENDCLASS.
+
+CLASS lhc_outputl2 IMPLEMENTATION.
+
+  METHOD onModifyOnHand.
+
+    DATA lv_prorate TYPE int4.
+    DATA lv_total TYPE int4.
+    DATA lv_sum TYPE int4.
+
+    READ ENTITIES OF zi_mrpapp IN LOCAL MODE
+       ENTITY OutputL2
+       ALL FIELDS WITH CORRESPONDING #( keys )
+       RESULT DATA(lt_outputl2).
+
+    READ ENTITIES OF zi_mrpapp IN LOCAL MODE
+     ENTITY OutputL2
+     BY \_OutputL3
+     ALL FIELDS WITH
+     CORRESPONDING #( keys )
+     RESULT DATA(lt_outputl3).
+
+    LOOP AT lt_outputl2 INTO DATA(ls_outputl2).
+      lv_total = ls_outputl2-newunr + ls_outputl2-newqa + ls_outputl2-newblock.
+      DATA(lv_count) = lines( lt_outputl3 ).
+      lv_prorate = lv_total / lv_count.
+      LOOP AT lt_outputl3 ASSIGNING FIELD-SYMBOL(<fs_outputl3>).
+        IF sy-tabix < lv_count.
+          <fs_outputl3>-newavailable = lv_prorate.
+          lv_sum = lv_sum + lv_prorate.
+        ELSE.
+          <fs_outputl3>-newavailable = lv_total - lv_sum.
+        ENDIF.
+      ENDLOOP.
+    ENDLOOP.
+
+    MODIFY ENTITIES OF zi_mrpapp IN LOCAL MODE
+               ENTITY OutputL3
+                 UPDATE
+                   FIELDS ( NewAvailable )
+                   WITH VALUE #( FOR outputl3 IN lt_outputl3
+                                   ( %tky         = outputl3-%tky
+                                     NewAvailable = outputl3-NewAvailable
+                                     %control-NewAvailable = if_abap_behv=>mk-on ) )
+               MAPPED DATA(upd_mapped)
+               FAILED DATA(upd_failed)
+               REPORTED DATA(upd_reported).
+
+  ENDMETHOD.
+
+ENDCLASS.
+
 CLASS lhc_App DEFINITION INHERITING FROM cl_abap_behavior_handler.
   PRIVATE SECTION.
 
@@ -14,6 +99,8 @@ CLASS lhc_App DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys FOR ACTION App~validateEntries RESULT result.
     METHODS exportToExcel FOR MODIFY
       IMPORTING keys FOR ACTION App~exportToExcel RESULT result.
+    METHODS refreshScreen FOR MODIFY
+      IMPORTING keys FOR ACTION App~refreshScreen RESULT result.
 
 ENDCLASS.
 
@@ -80,6 +167,9 @@ CLASS lhc_App IMPLEMENTATION.
 *      CATCH cx_root INTO DATA(root_exception).
 *    ENDTRY.
 
+    DATA(lo_singleton) = zcl_mrpa_singleton=>get_instance( ).
+    lo_singleton->set_data( 'Test' ).
+
     READ ENTITIES OF zi_mrpapp IN LOCAL MODE
            ENTITY App
               ALL FIELDS
@@ -114,12 +204,14 @@ CLASS lhc_App IMPLEMENTATION.
           ls_mrp_r   LIKE LINE OF lr_mrp.
 
     "Material filter
-    ls_matnr_r-sign = 'I'.
+
+    DELETE lt_materials WHERE MatnrFrom IS INITIAL AND MatnrTo IS INITIAL.
     LOOP AT lt_materials INTO DATA(ls_material).
       IF ls_material-MatnrFrom IS INITIAL AND
         ls_material-Matnrto IS INITIAL.
         CONTINUE.
       ENDIF.
+      ls_matnr_r-sign = 'I'.
       ls_matnr_r-low = ls_material-MatnrFrom.
       ls_matnr_r-high = ls_material-MatnrTo.
       IF ls_matnr_r-high IS NOT INITIAL.
@@ -132,12 +224,12 @@ CLASS lhc_App IMPLEMENTATION.
     ENDLOOP.
 
     "MRP filter
-    ls_mrp_r-sign = 'I'.
     LOOP AT lt_mrp INTO DATA(ls_mrp).
       IF ls_mrp-mrpfrom IS INITIAL AND
       ls_mrp-mrpto IS INITIAL.
         CONTINUE.
       ENDIF.
+      ls_mrp_r-sign = 'I'.
       ls_mrp_r-low = ls_mrp-mrpfrom.
       ls_mrp_r-high = ls_mrp-mrpto.
       IF ls_mrp_r-high IS NOT INITIAL.
@@ -412,15 +504,16 @@ CLASS lhc_App IMPLEMENTATION.
     REPORTED DATA(lt_mapped_reported_l3)
     FAILED DATA(lt_mapped_failed_l3).
 
-    APPEND VALUE #( %tky = lt_app[ 1 ]-%tky ) TO mapped-app.
     IF lt_output IS NOT INITIAL.
+      APPEND VALUE #( %tky = lt_app[ 1 ]-%tky ) TO mapped-app.
       APPEND VALUE #(  %tky = ls_app_temp-%tky
                        %msg = new_message_with_text( severity = if_abap_behv_message=>severity-success
                                                          text = 'Records were extracted. Check the Results tab' )
                      ) TO reported-app.
     ELSE.
+      APPEND VALUE #( %tky = lt_app[ 1 ]-%tky ) TO failed-app.
       APPEND VALUE #(  %tky = ls_app_temp-%tky
-                       %msg = new_message_with_text( severity = if_abap_behv_message=>severity-information
+                       %msg = new_message_with_text( severity = if_abap_behv_message=>severity-error
                                                          text = 'No records found.' )
                      ) TO reported-app.
     ENDIF.
@@ -529,6 +622,20 @@ CLASS lhc_App IMPLEMENTATION.
 
   ENDMETHOD.
 
+  METHOD refreshScreen.
+
+    READ ENTITIES OF zi_mrpapp IN LOCAL MODE
+          ENTITY App
+             ALL FIELDS
+            WITH CORRESPONDING #(  keys  )
+          RESULT DATA(lt_app).
+
+    result = VALUE #( FOR ls_app IN lt_app
+                          ( %tky   = ls_app-%tky
+                            %param = ls_app ) ).
+
+  ENDMETHOD.
+
 ENDCLASS.
 
 CLASS lsc_ZI_MRPAPP DEFINITION INHERITING FROM cl_abap_behavior_saver.
@@ -544,6 +651,7 @@ CLASS lsc_ZI_MRPAPP IMPLEMENTATION.
 
   METHOD save_modified.
     IF 1 = 1.
+      DATA(lv_test) = abap_true.
     ENDIF.
   ENDMETHOD.
 

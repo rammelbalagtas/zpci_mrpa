@@ -4,6 +4,12 @@ define service ZSD_MRP_M {
   expose ZC_MRPA_MATRANGE;
   expose ZC_MRPA_MRPRANGE;
   expose ZC_MRPA_OUTPUT;
+  expose ZC_MRPA_MESSAGES;
   expose ZC_MRPA_OUTPUTL2;
   expose ZC_MRPA_OUTPUTL3;
+  expose ZCE_MRPA2;
+  expose ZCE_DELIVERY;
+  expose ZCE_BACKORDER;
+  expose ZCE_POQUANTITY;
+  expose ZCE_POQUANTITY2;
 }

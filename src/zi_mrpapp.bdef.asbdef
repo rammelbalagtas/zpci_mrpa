@@ -25,6 +25,7 @@ authorization master ( global )
   draft determine action Prepare;
 
   action extractData result [1] $self;
+  action refreshScreen result [1] $self;
   action exportToExcel result [1] $self;
   action validateEntries result [1] $self;
   action clearInput result [1] $self;
@@ -32,6 +33,7 @@ authorization master ( global )
   side effects
   {
     action extractData affects entity _Output;
+    action refreshScreen affects entity _Output;
   }
 }
 
@@ -65,6 +67,7 @@ etag master Uname
 
 define behavior for ZI_MRPA_OUTPUT alias OutputL1
 persistent table zmrpa_output
+//with unmanaged save with full data
 draft table zdmrpa_output
 lock dependent by _App
 authorization dependent by _App
@@ -75,6 +78,8 @@ etag master Uname
   field ( readonly ) Uname, Material, Dlv, Bo, Unr, QA, Block, Available, Incoming;
   association _App { with draft; }
   association _OutputL2 { internal create; with draft; }
+  association _Messages { internal create; with draft; }
+  action validateInput result [1] $self;
 }
 
 define behavior for ZI_MRPA_OUTPUTL2 alias OutputL2
@@ -86,9 +91,25 @@ etag master Uname
 {
   update;
   internal delete;
-  field ( readonly ) Uname, Material, Mrp, Dlv, Bo, Unr, QA, Block, Available, Incoming;
+  field ( readonly ) Uname, Material, Mrp, Dlv, Bo, Unr, QA, Block, Available;
   association _OutputL1 { with draft; }
   association _OutputL3 { internal create; with draft; }
+  association _App { with draft; }
+  determination onModifyOnHand on modify { create; field NewBlock, NewQA, NewUnr; }
+
+}
+
+define behavior for ZI_MRPA_MESSAGES alias Messages
+persistent table zmrpa_messages
+draft table zdmrpa_messages
+lock dependent by _App
+authorization dependent by _App
+etag master Uname
+{
+  internal update;
+  internal delete;
+  field ( readonly ) Uname, Material, Sequence, Message;
+  association _OutputL1 { with draft; }
   association _App { with draft; }
 }
 

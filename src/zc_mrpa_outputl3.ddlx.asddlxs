@@ -2,6 +2,7 @@
 
 @UI: { headerInfo: { typeName:       'Customer',
                      typeNamePlural: 'Customer' } }
+                     
 annotate entity ZC_MRPA_OUTPUTL3 with
 {
 
@@ -16,12 +17,12 @@ annotate entity ZC_MRPA_OUTPUTL3 with
   @EndUserText.label: ' '
   @UI.lineItem: [{ position: 30 }]
   NewAvailable;
-  @EndUserText.label: 'Incoming'
-  @UI.lineItem: [{ position: 40 }]
-  Incoming;
-
-  @EndUserText.label: ' '
-  @UI.lineItem: [{ position: 50 }]
-  newIncoming;
+//  @EndUserText.label: 'Incoming'
+//  @UI.lineItem: [{ position: 40 }]
+//  Incoming;
+//
+//  @EndUserText.label: ' '
+//  @UI.lineItem: [{ position: 50 }]
+//  newIncoming;
 
 }

@@ -16,6 +16,10 @@ define view entity ZC_MRPA_OUTPUT
       Incoming,
       Previousmonth,
       Currentmonth,
+      @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_CALCULATE_VIRTUAL'
+      virtual CustomField1: abap.int4,
+      @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_CALCULATE_VIRTUAL'
+      virtual CustomField2: abap.int4,
       CreatedBy,
       CreatedAt,
       LocalLastChangedBy,
@@ -23,5 +27,8 @@ define view entity ZC_MRPA_OUTPUT
       LastChangedAt,
       /* Associations */
       _App: redirected to parent ZC_MRPAPP,
-      _OutputL2: redirected to composition child ZC_MRPA_OUTPUTL2
+      _Messages: redirected to composition child ZC_MRPA_MESSAGES,
+      _OutputL2: redirected to composition child ZC_MRPA_OUTPUTL2,
+      _Delivery,
+      _BackOrder
 }

@@ -3,55 +3,129 @@
 @UI: { headerInfo: { typeName:       'MRP Area',
                      typeNamePlural: 'MRP Area' } }
                      
-@UI: { headerInfo: { title:          { type: #STANDARD,
-                                       label: 'MRP Area',
-                                       value: 'MRP' } } }
+@UI: { headerInfo: { title: { type: #STANDARD,
+                             value: 'MRP' } } }
+
 annotate entity ZC_MRPA_OUTPUTL2 with
 {
 
   @UI.facet:
   [
+
+     //Header
+//     {
+//        purpose: #HEADER,
+//        id: 'OrdersAndDelivery1',
+//        type: #COLLECTION,
+//        position: 10
+//      },
+//
+//     {
+//        purpose: #HEADER,
+//        id: 'OnHand1',
+//        type: #COLLECTION,
+//        position: 20
+//      },
+//
+//     {
+//        purpose: #HEADER,
+//        id: 'POQuantity1',
+//        type: #COLLECTION,
+//        position: 30
+//      },
+
+      //Fieldgroup in header section
       {
-        id         : 'Output',
+//        parentId   : 'OrdersAndDelivery1',
+        type       : #FIELDGROUP_REFERENCE,
+        targetQualifier: 'OrdersAndDelivery1',
+        label: 'Orders and Delivery',
+        position: 10,
+        purpose: #HEADER
+      },
+
+      {
+//        parentId   : 'OnHand1',
+        type       : #FIELDGROUP_REFERENCE,
+        targetQualifier: 'OnHand1',
+        label: 'On Hand',
+        position: 11,
+        purpose: #HEADER
+      },
+
+      {
+//        parentId   : 'POQuantity1',
+        type       : #FIELDGROUP_REFERENCE,
+        targetQualifier: 'POQuantity1',
+        label: 'PO Quantity',
+        position: 12,
+        purpose: #HEADER
+      },
+      {
+        id         : 'Customer',
         purpose    : #STANDARD,
         position   : 10,
         label: 'Customer',
         type       :  #LINEITEM_REFERENCE,
         targetElement: '_OutputL3'
+      },
+      {
+        id         : 'POQuantity1',
+        purpose    : #STANDARD,
+        position   : 20,
+        label: 'MRP Elements for Incoming Quantity 1',
+        type       :  #LINEITEM_REFERENCE,
+        targetElement: '_POQuantity1'
+       },
+       {
+        id         : 'POQuantity2',
+        purpose    : #STANDARD,
+        position   : 30,
+        label: 'MRP Elements for Incoming Quantity 2',
+        type       :  #LINEITEM_REFERENCE,
+        targetElement: '_POQuantity2'
        }
   ]
 
   @EndUserText.label: 'MRP'
   @UI.lineItem: [{ position: 10 }]
   Mrp;
+  
   @EndUserText.label: 'Open Delivery'
   @UI.lineItem: [{ position: 20 }]
+  @UI.fieldGroup: [{ position: 10, qualifier: 'OrdersAndDelivery1'}]
   Dlv;
   @EndUserText.label: 'Back Order'
   @UI.lineItem: [{ position: 30 }]
+  @UI.fieldGroup: [{ position: 20, qualifier: 'OrdersAndDelivery1'}]
   Bo;
   @EndUserText.label: 'On Hand (Unrestricted)'
   @UI.lineItem: [{ position: 40 }]
+  @UI.fieldGroup: [{ label: 'Unrestricted', position: 30, qualifier: 'OnHand1'}]
   Unr;
   @EndUserText.label: ' '
   @UI.lineItem: [{ position: 50 }]
   NewUnr;
   @EndUserText.label: 'On Hand (QA)'
   @UI.lineItem: [{ position: 60 }]
+  @UI.fieldGroup: [{ label: 'QA', position: 40, qualifier: 'OnHand1'}]
   Qa;
   @EndUserText.label: ' '
   @UI.lineItem: [{ position: 70 }]
   NewQa;
   @EndUserText.label: 'On Hand (Block)'
   @UI.lineItem: [{ position: 80 }]
+  @UI.fieldGroup: [{ label: 'Block', position: 50, qualifier: 'OnHand1'}]
   Block;
   @EndUserText.label: ' '
   @UI.lineItem: [{ position: 90 }]
   NewBlock;
   @EndUserText.label: 'Available'
   @UI.lineItem: [{ position: 100 }]
+  @UI.fieldGroup: [{ position: 60, qualifier: 'POQuantity1'}]
   Available;
   @EndUserText.label: 'Incoming'
   @UI.lineItem: [{ position: 110 }]
+  @UI.fieldGroup: [{ position: 70, qualifier: 'POQuantity1'}]
   Incoming;
 }

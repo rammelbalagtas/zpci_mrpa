@@ -11,6 +11,9 @@ define view entity ZI_MRPA_OUTPUT
   as select from zmrpa_output
   association to parent ZI_MRPAPP        as _App on $projection.Uname = _App.Uname
   composition [0..*] of ZI_MRPA_OUTPUTL2 as _OutputL2
+  composition [0..*] of zi_mrpa_messages as _Messages
+  association [0..*] to ZCE_DELIVERY as _Delivery on $projection.Material = _Delivery.material
+  association [0..*] to ZCE_BACKORDER as _BackOrder on $projection.Material = _BackOrder.material
 {
   key uname              as Uname,
       @EndUserText.label: 'Material'
@@ -25,8 +28,8 @@ define view entity ZI_MRPA_OUTPUT
       qa                 as Qa,
       @EndUserText.label: 'On Hand (Block)'
       block              as Block,
-      available as Available,
-      incoming as Incoming,
+      available          as Available,
+      incoming           as Incoming,
       @EndUserText.label: 'Available (Previous Month)'
       previousmonth      as Previousmonth,
       @EndUserText.label: 'Available (Current Month)'
@@ -37,5 +40,8 @@ define view entity ZI_MRPA_OUTPUT
       locallastchangedat as LocalLastChangedAt,
       lastchangedat      as LastChangedAt,
       _App,
-      _OutputL2
+      _OutputL2,
+      _Messages,
+      _Delivery,
+      _BackOrder
 }

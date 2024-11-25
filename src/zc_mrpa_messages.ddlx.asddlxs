@@ -1,0 +1,10 @@
+@Metadata.layer: #CORE
+
+@UI: { headerInfo: { typeName:       'Message',
+                     typeNamePlural: 'Message' } }
+annotate entity ZC_MRPA_MESSAGES with
+{
+  @EndUserText.label: 'Message'
+  @UI.lineItem: [{ position: 10 }]
+  Message;
+}
