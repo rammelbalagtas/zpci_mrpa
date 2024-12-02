@@ -22,6 +22,7 @@ define root view entity ZI_MRPAPP
       _Parameters.plant              as Plant,
       @EndUserText.label: 'Perform Update?'
       _Parameters.updatedata         as Updatedata,
+      _Parameters.hideresult         as HideResult,
       @EndUserText.label: 'Region'
       _Parameters.region             as Region,
       _Parameters.attachment         as Attachment,

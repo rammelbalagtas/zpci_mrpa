@@ -13,30 +13,33 @@ ENDCLASS.
 
 
 
-CLASS zcl_calculate_virtual IMPLEMENTATION.
+CLASS ZCL_CALCULATE_VIRTUAL IMPLEMENTATION.
 
 
   METHOD if_sadl_exit_calc_element_read~calculate.
-    FIELD-SYMBOLS: <fs_data> TYPE any.
-    DATA(lv_test) = abap_true.
-    LOOP AT ct_calculated_data ASSIGNING FIELD-SYMBOL(<fs_calculated_data>).
-      ASSIGN COMPONENT 'CUSTOMFIELD1' OF STRUCTURE <fs_calculated_data> TO <fs_Data>.
-      IF sy-subrc EQ 0.
-        <fs_Data> = 1234.
-      ENDIF.
-      ASSIGN COMPONENT 'CUSTOMFIELD2' OF STRUCTURE <fs_calculated_data> TO <fs_Data>.
-      IF sy-subrc EQ 0.
-        <fs_Data> = 1234.
-      ENDIF.
+
+    CHECK NOT it_original_data IS INITIAL.
+
+    DATA : lt_calculated_data TYPE STANDARD TABLE OF ZC_MRPA_OUTPUT WITH DEFAULT KEY.
+
+    MOVE-CORRESPONDING it_original_data TO lt_calculated_data.
+
+    LOOP AT lt_calculated_data ASSIGNING FIELD-SYMBOL(<output>).
+      <output>-virtualDlv =  100.
+      <output>-virtualBo = 100.
+      <output>-Dlv = 111.
     ENDLOOP.
-    DATA(lo_singleton) = zcl_mrpa_singleton=>get_instance( ).
-    lo_singleton->set_data( 'Test' ).
+
+    MOVE-CORRESPONDING lt_calculated_data TO ct_calculated_data.
 
   ENDMETHOD.
 
 
   METHOD if_sadl_exit_calc_element_read~get_calculation_info.
-    DATA(lv_test) = abap_true.
+    et_requested_orig_elements = VALUE #( BASE et_requested_orig_elements
+                                              ( CONV #( 'DLV' ) )
+                                              ( CONV #( 'BO' )  )
+                                              ( CONV #( 'UNR'   ) ) ).
     IF 1 = 1.
     ENDIF.
   ENDMETHOD.

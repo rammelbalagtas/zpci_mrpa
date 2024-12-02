@@ -14,7 +14,7 @@ ENDCLASS.
 
 
 
-CLASS zcl_ce_mrpa IMPLEMENTATION.
+CLASS ZCL_CE_MRPA IMPLEMENTATION.
 
 
   METHOD if_rap_query_provider~select.

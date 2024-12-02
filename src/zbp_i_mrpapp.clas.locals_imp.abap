@@ -13,6 +13,8 @@ ENDCLASS.
 CLASS lhc_outputl1 IMPLEMENTATION.
 
   METHOD get_global_authorizations.
+    IF 1 = 1.
+    ENDIF.
   ENDMETHOD.
 
   METHOD validateInput.
@@ -101,6 +103,15 @@ CLASS lhc_App DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys FOR ACTION App~exportToExcel RESULT result.
     METHODS refreshScreen FOR MODIFY
       IMPORTING keys FOR ACTION App~refreshScreen RESULT result.
+    METHODS precheck_update FOR PRECHECK
+      IMPORTING entities FOR UPDATE App.
+    METHODS Edit FOR MODIFY
+      IMPORTING keys FOR ACTION App~Edit.
+
+    METHODS Resume FOR MODIFY
+      IMPORTING keys FOR ACTION App~Resume.
+    METHODS refreshEntity FOR MODIFY
+      IMPORTING keys FOR ACTION App~refreshEntity RESULT result.
 
 ENDCLASS.
 
@@ -636,6 +647,46 @@ CLASS lhc_App IMPLEMENTATION.
 
   ENDMETHOD.
 
+  METHOD precheck_update.
+    IF 1 = 1.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD Edit.
+  ENDMETHOD.
+
+  METHOD Resume.
+    DATA(lv_test) = abap_true.
+    IF 1 = 1.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD refreshEntity.
+
+    DATA(lo_singleton) = zcl_mrpa_singleton=>get_instance( ).
+    lo_singleton->set_data( 'Open' ).
+
+    READ ENTITIES OF zi_mrpapp IN LOCAL MODE
+          ENTITY App
+             ALL FIELDS
+            WITH  VALUE #( ( %key-uname = sy-uname ) )
+          RESULT DATA(lt_app).
+
+    SELECT * FROM zdmrpapp WHERE uname = @sy-uname INTO TABLE @DATA(lt_draft).
+    IF sy-subrc EQ 0.
+      READ TABLE lt_app ASSIGNING FIELD-SYMBOL(<fs_data>) INDEX 1.
+      IF sy-subrc EQ 0.
+        <fs_data>-%is_draft = '01'. "01 - draft
+      ENDIF.
+    ENDIF.
+
+    READ TABLE keys INTO DATA(ls_key) INDEX 1.
+    result = VALUE #( FOR ls_app IN lt_app
+                       (  %cid   = ls_key-%cid
+                          %param = ls_app ) ).
+
+  ENDMETHOD.
+
 ENDCLASS.
 
 CLASS lsc_ZI_MRPAPP DEFINITION INHERITING FROM cl_abap_behavior_saver.
@@ -650,8 +701,31 @@ ENDCLASS.
 CLASS lsc_ZI_MRPAPP IMPLEMENTATION.
 
   METHOD save_modified.
-    IF 1 = 1.
-      DATA(lv_test) = abap_true.
+    DATA(lo_singleton) = zcl_mrpa_singleton=>get_instance( ).
+    DATA(lv_value) = lo_singleton->get_data(  ).
+    IF lv_value EQ 'Open'.
+      SELECT * FROM zdmrpapp WHERE uname = @sy-uname INTO TABLE @DATA(lt_mrpapp).
+      IF sy-subrc EQ 0.
+        LOOP AT lt_mrpapp ASSIGNING FIELD-SYMBOL(<fs_app>).
+          CLEAR: <fs_app>-plant, <fs_app>-region, <fs_app>-updatedata, <fs_app>-attachment, <fs_app>-mimetype, <fs_app>-filename.
+        ENDLOOP.
+        MODIFY zdmrpapp FROM TABLE @lt_mrpapp.
+      ELSE.
+        DELETE FROM zdmrpapp WHERE uname = @sy-uname.
+      ENDIF.
+      DELETE FROM zdmrpa_matrange WHERE uname = @sy-uname.
+      DELETE FROM zdmrpa_mrprange WHERE uname = @sy-uname.
+      DELETE FROM zdmrpa_messages WHERE uname = @sy-uname.
+      DELETE FROM zdmrpa_output WHERE uname = @sy-uname.
+      DELETE FROM zdmrpa_outputl2 WHERE uname = @sy-uname.
+      DELETE FROM zdmrpa_outputl3 WHERE uname = @sy-uname.
+      DELETE FROM zmrpa_input WHERE uname = @sy-uname.
+      DELETE FROM zmrpa_matrange WHERE uname = @sy-uname.
+      DELETE FROM zmrpa_mrprange WHERE uname = @sy-uname.
+      DELETE FROM zmrpa_messages WHERE uname = @sy-uname.
+      DELETE FROM zmrpa_output WHERE uname = @sy-uname.
+      DELETE FROM zmrpa_outputl2 WHERE uname = @sy-uname.
+      DELETE FROM zmrpa_outputl3 WHERE uname = @sy-uname.
     ENDIF.
   ENDMETHOD.
 

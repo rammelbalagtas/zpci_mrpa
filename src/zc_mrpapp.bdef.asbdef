@@ -1,18 +1,21 @@
 projection implementation in class zbp_c_mrpapp unique;
-strict;
+strict ;
 use draft;
 use side effects;
 
 define behavior for ZC_MRPAPP alias App
+//use etag
 {
-  use update;
-  use delete;
+
+  use update (augment);
+//  use delete;
 
   use action extractData;
   use action refreshScreen;
   use action exportToExcel;
   use action validateEntries;
   use action clearInput;
+  use action refreshEntity;
 
   use action Edit;
   use action Activate;
@@ -28,6 +31,7 @@ define behavior for ZC_MRPAPP alias App
 }
 
 define behavior for ZC_MRPA_MATRANGE alias MaterialRange
+//use etag
 {
   use update;
   use delete;
@@ -36,6 +40,7 @@ define behavior for ZC_MRPA_MATRANGE alias MaterialRange
 }
 
 define behavior for ZC_MRPA_MRPRANGE alias MRPRange
+//use etag
 {
   use update;
   use delete;
@@ -44,6 +49,7 @@ define behavior for ZC_MRPA_MRPRANGE alias MRPRange
 }
 
 define behavior for ZC_MRPA_OUTPUT alias OutputL1
+//use etag
 {
   use update;
 
@@ -55,12 +61,14 @@ define behavior for ZC_MRPA_OUTPUT alias OutputL1
 }
 
 define behavior for ZC_MRPA_MESSAGES alias Messages
+//use etag
 {
   use association _OutputL1 { with draft; }
   use association _App { with draft; }
 }
 
 define behavior for ZC_MRPA_OUTPUTL2 alias OutputL2
+//use etag
 {
   use update;
   use association _OutputL1 { with draft; }
@@ -69,6 +77,7 @@ define behavior for ZC_MRPA_OUTPUTL2 alias OutputL2
 }
 
 define behavior for ZC_MRPA_OUTPUTL3 alias OutputL3
+//use etag
 {
   use update;
   use association _OutputL2 { with draft; }

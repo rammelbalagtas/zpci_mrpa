@@ -14,7 +14,7 @@ ENDCLASS.
 
 
 
-CLASS zcl_bgpf IMPLEMENTATION.
+CLASS ZCL_BGPF IMPLEMENTATION.
 
 
   METHOD if_bgmc_op_single~execute.

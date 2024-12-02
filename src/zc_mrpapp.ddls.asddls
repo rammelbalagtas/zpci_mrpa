@@ -11,6 +11,7 @@ define root view entity ZC_MRPAPP
       Plant,
       Region,
       Updatedata,
+      HideResult,
       @Semantics.largeObject: {
         acceptableMimeTypes: [ 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ],
         cacheControl.maxAge: #MEDIUM,
@@ -23,7 +24,6 @@ define root view entity ZC_MRPAPP
       @Semantics.mimeType: true
       Mimetype,
       Filename,
-
       Localcreatedby,
       Localcreatedat,
       Locallastchangedby,

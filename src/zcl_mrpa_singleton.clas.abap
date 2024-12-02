@@ -26,7 +26,21 @@ CLASS zcl_mrpa_singleton DEFINITION
     DATA gt_filters TYPE if_rap_query_filter=>tt_name_range_pairs.
 ENDCLASS.
 
-CLASS zcl_mrpa_singleton IMPLEMENTATION.
+
+
+CLASS ZCL_MRPA_SINGLETON IMPLEMENTATION.
+
+
+  METHOD get_data.
+    rv_value = gv_value.
+  ENDMETHOD.
+
+
+  METHOD get_filters.
+    rt_filters = gt_filters.
+  ENDMETHOD.
+
+
   METHOD get_instance.
 *    IF go_instance IS BOUND.
 *      ro_instance = go_instance.
@@ -38,19 +52,13 @@ CLASS zcl_mrpa_singleton IMPLEMENTATION.
     ro_instance = go_instance.
   ENDMETHOD.
 
+
   METHOD set_data.
     gv_value = iv_value.
   ENDMETHOD.
 
+
   METHOD set_filter.
     gt_filters = it_filters.
-  ENDMETHOD.
-
-  METHOD get_data.
-    rv_value = gv_value.
-  ENDMETHOD.
-
-  METHOD get_filters.
-    rt_filters = gt_filters.
   ENDMETHOD.
 ENDCLASS.

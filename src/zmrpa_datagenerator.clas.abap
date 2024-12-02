@@ -12,7 +12,8 @@ ENDCLASS.
 
 
 
-CLASS zmrpa_datagenerator IMPLEMENTATION.
+CLASS ZMRPA_DATAGENERATOR IMPLEMENTATION.
+
 
   METHOD if_oo_adt_classrun~main.
 
@@ -59,17 +60,30 @@ CLASS zmrpa_datagenerator IMPLEMENTATION.
                         ).
     INSERT zmrpmat FROM TABLE @lt_values.
 
-     DATA lt_user TYPE STANDARD TABLE OF zmrpa_user.
-     DATA ls_user LIKE LINE OF lt_user.
-     DELETE FROM zmrpa_user.
-     ls_user-bname = sy-uname.
-     APPEND ls_user to lt_user.
-          ls_user-bname = 'RBALAGTA'.
-     APPEND ls_user to lt_user.
-     INSERT zmrpa_user FROM TABLE @lt_user.
+    DATA lt_user TYPE STANDARD TABLE OF zmrpa_user.
+    DATA ls_user LIKE LINE OF lt_user.
+    DELETE FROM zmrpa_user.
+    ls_user-bname = sy-uname.
+    APPEND ls_user TO lt_user.
+    ls_user-bname = 'CB9980001268'.
+    APPEND ls_user TO lt_user.
+    INSERT zmrpa_user FROM TABLE @lt_user.
 
+*    DELETE FROM zdmrpapp WHERE uname = @sy-uname.
+*    DELETE FROM zdmrpa_matrange WHERE uname = @sy-uname.
+*    DELETE FROM zdmrpa_mrprange WHERE uname = @sy-uname.
+*    DELETE FROM zdmrpa_messages WHERE uname = @sy-uname.
+*    DELETE FROM zdmrpa_output WHERE uname = @sy-uname.
+*    DELETE FROM zdmrpa_outputl2 WHERE uname = @sy-uname.
+*    DELETE FROM zdmrpa_outputl3 WHERE uname = @sy-uname.
+*    DELETE FROM zmrpa_input WHERE uname = @sy-uname.
+*    DELETE FROM zmrpa_matrange WHERE uname = @sy-uname.
+*    DELETE FROM zmrpa_mrprange WHERE uname = @sy-uname.
+*    DELETE FROM zmrpa_messages WHERE uname = @sy-uname.
+*    DELETE FROM zmrpa_output WHERE uname = @sy-uname.
+*    DELETE FROM zmrpa_outputl2 WHERE uname = @sy-uname.
+*    DELETE FROM zmrpa_outputl3 WHERE uname = @sy-uname.
 
-     DELETE FROM ZDMRPAPP WHERE uname = 'RBALAGTA'.
 *     DATA lt_app TYPE STANDARD TABLE OF ZDMRPAPP.
 *     DATA ls_app LIKE LINE OF lt_app.
 *     ls_app-uname = sy-uname.

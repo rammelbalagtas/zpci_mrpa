@@ -12,7 +12,9 @@ ENDCLASS.
 
 
 
-CLASS zcl_i_mrp IMPLEMENTATION.
+CLASS ZCL_I_MRP IMPLEMENTATION.
+
+
   METHOD if_rap_query_provider~select.
     DATA lt_mrp TYPE TABLE OF z_c_mrp.
     DATA(lo_paging) = io_request->get_paging( ).

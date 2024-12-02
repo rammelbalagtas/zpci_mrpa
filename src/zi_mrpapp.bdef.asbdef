@@ -11,17 +11,17 @@ total etag Uname
 authorization master ( global )
 {
   internal create;
-  update;
+  update ( precheck );
   delete;
   field ( readonly ) Uname, Attachment;
   association _Materials { create; with draft; }
   association _MRP { create; with draft; }
   association _Output { internal create; with draft; }
 
-  draft action Edit;
+  draft action Edit with additional implementation;
   draft action Activate optimized;
   draft action Discard;
-  draft action Resume;
+  draft action Resume with additional implementation;
   draft determine action Prepare;
 
   action extractData result [1] $self;
@@ -29,6 +29,8 @@ authorization master ( global )
   action exportToExcel result [1] $self;
   action validateEntries result [1] $self;
   action clearInput result [1] $self;
+
+  static action refreshEntity result [1] $self;
 
   side effects
   {
@@ -67,7 +69,6 @@ etag master Uname
 
 define behavior for ZI_MRPA_OUTPUT alias OutputL1
 persistent table zmrpa_output
-//with unmanaged save with full data
 draft table zdmrpa_output
 lock dependent by _App
 authorization dependent by _App
