@@ -104,10 +104,10 @@ annotate entity ZC_MRPA_OUTPUT with
   @UI.lineItem: [{ position: 10 }]
   @UI.identification: [ { type: #FOR_ACTION, label: 'Validate', dataAction: 'validateInput' }]
   Material;
-  @EndUserText.label: 'Virtual Open Delivery'
-  @UI.lineItem: [{ position: 20 }]
-  @UI.fieldGroup: [{ position: 10, qualifier: 'OrdersAndDelivery'}]
-  virtualDlv;
+//  @EndUserText.label: 'Virtual Open Delivery'
+//  @UI.lineItem: [{ position: 20 }]
+//  @UI.fieldGroup: [{ position: 10, qualifier: 'OrdersAndDelivery'}]
+//  virtualDlv;
   @EndUserText.label: 'Open Delivery'
   @UI.lineItem: [{ position: 20 }]
   @UI.fieldGroup: [{ position: 10, qualifier: 'OrdersAndDelivery'}]

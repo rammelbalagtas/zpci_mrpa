@@ -85,6 +85,7 @@ etag master Uname
 
 define behavior for ZI_MRPA_OUTPUTL2 alias OutputL2
 persistent table zmrpa_outputl2
+//with unmanaged save with full data
 draft table zdmrpa_outputl2
 lock dependent by _App
 authorization dependent by _App

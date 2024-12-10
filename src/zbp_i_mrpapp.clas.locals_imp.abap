@@ -678,7 +678,20 @@ CLASS lhc_App IMPLEMENTATION.
       IF sy-subrc EQ 0.
         <fs_data>-%is_draft = '01'. "01 - draft
       ENDIF.
+*      MODIFY ENTITIES OF zi_mrpapp IN LOCAL MODE
+*      ENTITY App
+*      DELETE FROM VALUE #( (  %is_draft = <fs_data>-%is_draft
+*                                  %key  = <fs_data>-%key ) )
+*      MAPPED DATA(lt_mapped_delete)
+*      REPORTED DATA(lt_reported_delete)
+*      FAILED DATA(lt_failed_delete).
     ENDIF.
+
+*    READ ENTITIES OF zi_mrpapp IN LOCAL MODE
+*          ENTITY App
+*             ALL FIELDS
+*            WITH  VALUE #( ( %key-uname = sy-uname ) )
+*          RESULT lt_app.
 
     READ TABLE keys INTO DATA(ls_key) INDEX 1.
     result = VALUE #( FOR ls_app IN lt_app
@@ -701,6 +714,9 @@ ENDCLASS.
 CLASS lsc_ZI_MRPAPP IMPLEMENTATION.
 
   METHOD save_modified.
+    DATA lt_input TYPE STANDARD TABLE OF zmrpa_input.
+    DATA ls_input LIKE LINE OF lt_input.
+
     DATA(lo_singleton) = zcl_mrpa_singleton=>get_instance( ).
     DATA(lv_value) = lo_singleton->get_data(  ).
     IF lv_value EQ 'Open'.
@@ -713,6 +729,7 @@ CLASS lsc_ZI_MRPAPP IMPLEMENTATION.
       ELSE.
         DELETE FROM zdmrpapp WHERE uname = @sy-uname.
       ENDIF.
+*      DELETE FROM zdmrpapp WHERE uname = @sy-uname.
       DELETE FROM zdmrpa_matrange WHERE uname = @sy-uname.
       DELETE FROM zdmrpa_mrprange WHERE uname = @sy-uname.
       DELETE FROM zdmrpa_messages WHERE uname = @sy-uname.
@@ -726,6 +743,23 @@ CLASS lsc_ZI_MRPAPP IMPLEMENTATION.
       DELETE FROM zmrpa_output WHERE uname = @sy-uname.
       DELETE FROM zmrpa_outputl2 WHERE uname = @sy-uname.
       DELETE FROM zmrpa_outputl3 WHERE uname = @sy-uname.
+    ELSE.
+       IF create-app IS NOT INITIAL.
+         READ TABLE create-app ASSIGNING FIELD-SYMBOL(<app>) INDEX 1.
+         IF sy-subrc EQ 0.
+            MOVE-CORRESPONDING <app> TO ls_input.
+            APPEND ls_input TO lt_input.
+            MODIFY zmrpa_input FROM TABLE @lt_input.
+         ENDIF.
+       ENDIF.
+       IF update-app IS NOT INITIAL.
+         READ TABLE update-app ASSIGNING <app> INDEX 1.
+         IF sy-subrc EQ 0.
+            MOVE-CORRESPONDING <app> TO ls_input.
+            APPEND ls_input TO lt_input.
+            MODIFY zmrpa_input FROM TABLE @lt_input.
+         ENDIF.
+       ENDIF.
     ENDIF.
   ENDMETHOD.
 

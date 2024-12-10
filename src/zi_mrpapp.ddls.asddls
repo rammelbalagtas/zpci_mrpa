@@ -7,6 +7,10 @@
     sizeCategory: #S,
     dataClass: #MIXED
 }
+
+@ObjectModel: {
+  semanticKey: [ 'Uname' ]
+}
 define root view entity ZI_MRPAPP
   as select from    zmrpa_user  as _User
     left outer join zmrpa_input as _Parameters on _User.bname = _Parameters.uname
