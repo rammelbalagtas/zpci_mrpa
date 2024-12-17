@@ -1,5 +1,5 @@
 managed implementation in class zbp_i_mrpapp unique;
-strict;
+strict( 2 );
 with draft;
 
 define behavior for ZI_MRPAPP alias App

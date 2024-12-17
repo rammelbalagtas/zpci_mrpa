@@ -178,6 +178,13 @@ CLASS lhc_App IMPLEMENTATION.
 *      CATCH cx_root INTO DATA(root_exception).
 *    ENDTRY.
 
+*   SELECT * FROM I_BusinessPartner INTO TABLE @DATA(lt_data2) PACKAGE SIZE 10. ENDSELECT.
+
+    READ ENTITIES OF i_businesspartnertp_3 ENTITY businesspartner
+    ALL FIELDS WITH VALUE #( (
+                         businesspartner = '0000000001'
+                         ) ) RESULT DATA(partner).
+
     DATA(lo_singleton) = zcl_mrpa_singleton=>get_instance( ).
     lo_singleton->set_data( 'Test' ).
 
@@ -717,6 +724,13 @@ CLASS lsc_ZI_MRPAPP IMPLEMENTATION.
     DATA lt_input TYPE STANDARD TABLE OF zmrpa_input.
     DATA ls_input LIKE LINE OF lt_input.
 
+*    READ ENTITIES OF i_businesspartnertp_3 ENTITY businesspartner
+*    ALL FIELDS WITH VALUE #( (
+*                         businesspartner = '0000000001'
+*                         ) ) RESULT DATA(partner).
+
+*    SELECT * FROM I_BusinessPartner INTO TABLE @DATA(lt_data2).
+    ZCL_API_PRODUCT_UTILITY=>read_local(  ).
     DATA(lo_singleton) = zcl_mrpa_singleton=>get_instance( ).
     DATA(lv_value) = lo_singleton->get_data(  ).
     IF lv_value EQ 'Open'.

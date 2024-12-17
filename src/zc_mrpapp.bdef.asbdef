@@ -1,5 +1,5 @@
 projection implementation in class zbp_c_mrpapp unique;
-strict ;
+strict( 2 );
 use draft;
 use side effects;
 
